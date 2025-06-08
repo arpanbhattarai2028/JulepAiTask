@@ -12,3 +12,5 @@ This project is a Julep AI workflow that creates a weather-aware, one-day foodie
 
 ```json
 { "cities": ["Tokyo", "Florence", "San Francisco"] }
+
+I was not able to complete the whole task. Though I got used to with the tasks, agents, sessions, executions. The dashboard was kinda new to me I regret not booking a meeting ahead of time. I would love to implement this manually in backend using Julep api in future.
