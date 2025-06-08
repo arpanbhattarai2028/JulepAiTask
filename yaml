@@ -1,0 +1,53 @@
+input_schema:
+  type: object
+  properties:
+    cities:
+      type: array
+      items:
+        type: string
+
+workflow:
+  - foreach:
+      list: $.cities
+      as: city
+      steps:
+        - prompt:
+            - role: user
+              content: >
+                What’s the weather in {{ city }} today? Reply with just one word: sunny, rainy, snowy, or cloudy.
+          unwrap: true
+          label: get_weather
+
+        - prompt:
+            - role: user
+              content: >
+                If the weather is "{{ steps.get_weather.output }}", should someone dine indoors or outdoors?
+          unwrap: true
+          label: get_dining_type
+
+        - prompt:
+            - role: user
+              content: >
+                List 3 iconic dishes from {{ city }} with short descriptions.
+          unwrap: true
+          label: get_dishes
+
+        - prompt:
+            - role: user
+              content: >
+                For each of these dishes from {{ city }}: {{ steps.get_dishes.output }}, find a top-rated restaurant that serves it.
+          unwrap: true
+          label: get_restaurants
+
+        - prompt:
+            - role: user
+              content: >
+                Create a foodie tour for {{ city }} using the following:
+                - Weather: {{ steps.get_weather.output }}
+                - Dining type: {{ steps.get_dining_type.output }}
+                - Restaurants: {{ steps.get_restaurants.output }}
+                Write a one-day plan with breakfast, lunch, and dinner, and make it vivid and local.
+          unwrap: true
+          label: final_story
+
+  - return: $ _
